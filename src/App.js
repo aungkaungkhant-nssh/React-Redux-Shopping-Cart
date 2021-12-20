@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import Cart from './components/Cart';
 import Filter from './components/Filter';
 import Products from './components/Products';
 import data from './data.json'
@@ -7,6 +8,7 @@ function App() {
   const [products,setProducts]=useState(data.products)
   const [size,setSize]=useState("");
   const [sort,setSort]=useState("");
+  const [cartItems,setCartItems]=useState(localStorage.getItem("cartItems")?JSON.parse(localStorage.getItem("cartItems")):[]);
   const sortProduct=(e)=>{
     const sortValue=e.target.value;
     if(sortValue===""){
@@ -37,6 +39,33 @@ function App() {
     ))
     setProducts(filterProduct)
   }
+  const addToCart=(product)=>{
+      let aleradyInCart=false;
+      const cItems=cartItems.slice();
+      cItems.forEach((i)=>{
+        if(i._id==product._id){
+          i.count++; 
+          aleradyInCart=true;
+        }
+      })
+      if(!aleradyInCart){
+         cItems.push({...product,count:1})
+      }
+      setCartItems(cItems)
+      localStorage.setItem("cartItems",JSON.stringify(cItems))
+  }
+  const removeCart=(id)=>{
+      setCartItems(cartItems.filter((c)=>(
+        c._id!==id
+      )))
+      localStorage.setItem("cartItems",JSON.stringify(cartItems.filter((c)=>(
+        c._id!==id
+      ))))
+
+  }
+  const createOrder=(order)=>{
+      console.log(order)
+  }
   return (
     <div className="grid-container">
       <header>
@@ -52,9 +81,10 @@ function App() {
                     sortProduct={sortProduct}
                     sizeProduct={sizeProduct}
                    />
-                  <Products products={products}/>
+                  <Products products={products} addToCart={addToCart}/>
               </div>
               <div className="sidebar">
+                  <Cart cartItems={cartItems} removeCart={removeCart} createOrder={createOrder}/>
               </div>
           </div>
       </main>
