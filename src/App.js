@@ -1,9 +1,11 @@
-
 import { useState } from 'react';
 import Cart from './components/Cart';
 import Filter from './components/Filter';
 import Products from './components/Products';
 import data from './data.json'
+import Modal from 'react-modal'
+import { Provider } from 'react-redux';
+import store from './store';
 function App() {
   const [products,setProducts]=useState(data.products)
   const [size,setSize]=useState("");
@@ -67,7 +69,8 @@ function App() {
       console.log(order)
   }
   return (
-    <div className="grid-container">
+    <Provider store={store}>
+          <div className="grid-container">
       <header>
           <a href="/">React-Redux Shopping Cart</a>
       </header>
@@ -81,7 +84,7 @@ function App() {
                     sortProduct={sortProduct}
                     sizeProduct={sizeProduct}
                    />
-                  <Products products={products} addToCart={addToCart}/>
+                  <Products addToCart={addToCart}/>
               </div>
               <div className="sidebar">
                   <Cart cartItems={cartItems} removeCart={removeCart} createOrder={createOrder}/>
@@ -91,7 +94,9 @@ function App() {
       <footer>
         All right is reserved
       </footer>
-    </div>
+          </div>
+    </Provider>
+  
   );
 }
 
