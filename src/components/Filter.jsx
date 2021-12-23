@@ -1,12 +1,14 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { orderProductByPrice, orderProductBySize } from '../action/productAction'
 
-function Filter({count,sort,size,sortProduct,sizeProduct}) {
+function Filter({sorts,size,orderSort,orderSize,products}) {
     return (
         <div className="filter">
-            <div className="filter-result">{count} products</div>
+            <div className="filter-result">{products&&products.length} products</div>
             <div className="filter-sort">
                 Order{" "}
-                <select value={sort} onChange={sortProduct}>
+                <select value={sorts} onChange={(e)=>orderSort(e.target.value)}>
                     <option value="">Latest</option>
                     <option value="lowest">Lowest</option>
                     <option value="highest">Highest</option>
@@ -14,7 +16,7 @@ function Filter({count,sort,size,sortProduct,sizeProduct}) {
             </div>
             <div className="filter-size">
                 Filter{" "}
-                <select value={size} onChange={sizeProduct}>
+                <select value={size} onChange={(e)=>orderSize(e.target.value)}>
                     <option value="">ALL</option>
                     <option value="XS">XS</option>
                     <option value="S">S</option>
@@ -27,5 +29,16 @@ function Filter({count,sort,size,sortProduct,sizeProduct}) {
         </div>
     )
 }
-
-export default Filter
+const mapStateToProps=state=>{
+      return {
+          sorts:state.products.sorts,
+          size:state.products.size
+      }
+}
+const mapStateToDispatch=dispatch=>{
+    return {
+      orderSort:(value)=>dispatch(orderProductByPrice(value)),
+      orderSize:(value)=>dispatch(orderProductBySize(value))
+    }
+}
+export default  connect(mapStateToProps,mapStateToDispatch)(Filter)

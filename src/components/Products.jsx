@@ -89,7 +89,7 @@ function Products({products,getProducts,addToCart}) {
 }
 const mapStateToProps=state=>{
     return {
-        products:state.products.items.products,
+        products:state.products.filterItems.products,
     
     }
 }
