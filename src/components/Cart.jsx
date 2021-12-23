@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { formatCurrency } from '../util'
 import Fade from 'react-reveal/Fade'
+import {  removeToCart } from '../action/cartAction';
+import { connect } from 'react-redux';
 function Cart({cartItems,removeCart,createOrder}) {
     const [checkOut,setCheckOut]=useState(false);
     const [order,setOrder]=useState({email:"",name:"",address:""})
@@ -101,5 +103,14 @@ function Cart({cartItems,removeCart,createOrder}) {
         </div>
     )
 }
-
-export default Cart
+const mapStateToProps=(state)=>{
+    return {
+        cartItems:state.cart.cartItems
+    }
+}
+const mapStateToDispatch=dispatch=>{
+    return {
+        removeCart:(id)=>dispatch(removeToCart(id))
+    }
+}
+export default connect(mapStateToProps,mapStateToDispatch)(Cart)
