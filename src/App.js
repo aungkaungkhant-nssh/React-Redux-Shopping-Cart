@@ -7,47 +7,8 @@ import Modal from 'react-modal'
 import { Provider } from 'react-redux';
 import store from './store';
 function App() {
-  // const [products,setProducts]=useState()
-  // const [size,setSize]=useState("");
-  // const [sort,setSort]=useState("");
-  const [cartItems,setCartItems]=useState(localStorage.getItem("cartItems")?JSON.parse(localStorage.getItem("cartItems")):[]);
-  // }
-  // const sizeProduct=(e)=>{
-  //   const sizeValue=e.target.value
-  //   if(sizeValue==""){
-  //     setSize("")
-  //    return setProducts(data.products)
-  //   }
-  //   setSize(sizeValue)
-  //   let filterProduct=data.products.filter((p)=>(
-  //     p.availableSizes.indexOf(sizeValue)>=0
-  //   ))
-  //   setProducts(filterProduct)
-  // }
-  const addToCart=(product)=>{
-      let aleradyInCart=false;
-      const cItems=cartItems.slice();
-      cItems.forEach((i)=>{
-        if(i._id==product._id){
-          i.count++; 
-          aleradyInCart=true;
-        }
-      })
-      if(!aleradyInCart){
-         cItems.push({...product,count:1})
-      }
-      setCartItems(cItems)
-      localStorage.setItem("cartItems",JSON.stringify(cItems))
-  }
-  const removeCart=(id)=>{
-      setCartItems(cartItems.filter((c)=>(
-        c._id!==id
-      )))
-      localStorage.setItem("cartItems",JSON.stringify(cartItems.filter((c)=>(
-        c._id!==id
-      ))))
 
-  }
+ 
   const createOrder=(order)=>{
       console.log(order)
   }
@@ -61,10 +22,10 @@ function App() {
           <div className="content">
               <div className="main">
                   <Filter />
-                  <Products addToCart={addToCart}/>
+                  <Products />
               </div>
               <div className="sidebar">
-                  <Cart cartItems={cartItems} removeCart={removeCart} createOrder={createOrder}/>
+                  <Cart  createOrder={createOrder}/>
               </div>
           </div>
       </main>

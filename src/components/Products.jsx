@@ -6,6 +6,7 @@ import Zoom from 'react-reveal/Zoom'
 import { connect } from 'react-redux'
 import { productFetch } from '../action/productAction'
 import data from '../data.json'
+import { addToCart } from '../action/cartAction'
 Modal.setAppElement('#root');
 function Products({products,getProducts,addToCart}) {
     const [product,setProduct]=useState(null)
@@ -90,12 +91,12 @@ function Products({products,getProducts,addToCart}) {
 const mapStateToProps=state=>{
     return {
         products:state.products.filterItems.products,
-    
     }
 }
-const mapDispatchToProps=dispath=>{
+const mapDispatchToProps=dispatch=>{
     return {
-        getProducts:(data)=>dispath(productFetch(data))
+        getProducts:(data)=>dispatch(productFetch(data)),
+        addToCart:(product)=>dispatch(addToCart(product))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Products)
